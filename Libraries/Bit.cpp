@@ -1,5 +1,7 @@
 #define BOOST_TEST_MODULE Bit
 
+#include "Test.h"
+
 #include <cstdint>
 #include <vector>
 
@@ -15,10 +17,10 @@ namespace Libraries { namespace Bit {
 
         Bit(Index N);
         void add(Index index_, Count value_);
-        Count rangeCount(Index indexA_, Index indexB_);
+        Count rangeCount(Index indexA_, Index indexB_) const;
 
       private:
-        Count leftCount(Index index_);
+        Count leftCount(Index index_) const;
         std::vector<Index> _vector;
     };
 
@@ -36,13 +38,13 @@ namespace Libraries { namespace Bit {
         }
     }
 
-    Bit::Count Bit::rangeCount(Index indexA_, Index indexB_)
+    Bit::Count Bit::rangeCount(Index indexA_, Index indexB_) const
     {
         Count leftSum = 0 < indexA_ ? leftCount(indexA_ - 1) : 0;
         return leftCount(indexB_) - leftSum;
     }
 
-    Bit::Count Bit::leftCount(Index index_)
+    Bit::Count Bit::leftCount(Index index_) const
     {
         Count sum = _vector[index_];
         if (0 < index_)
@@ -68,6 +70,44 @@ namespace Libraries { namespace Bit {
             sum += vector_[i];
         }
         return sum;
+    }
+
+    Test::Predicate checkBitRange(const std::vector<std::size_t>& vector_, const Bit& bit_)
+    {
+        Test::TestIssues issues;
+        std::size_t N = vector_.size();
+        for (std::size_t i = 0; i < N; ++i)
+        {
+            for (std::size_t j = i; j < N; ++j)
+            {
+                std::size_t vectorSum = 0;
+                for (std::size_t k = i; k <= j; ++k)
+                {
+                    vectorSum += vector_[k];
+                }
+                std::size_t bitSum = bit_.rangeCount(i, j);
+                if (vectorSum != bitSum)
+                {
+                    issues << "Range count different for [" << i << ", " << j << "], vector = " << vectorSum << ", BIT = " << bitSum << "\n";
+                }
+            }
+        }
+        return issues.predicate;
+    }
+
+    BOOST_AUTO_TEST_CASE(Small)
+    {
+        std::size_t testSize = 10;
+        Bit bit(testSize);
+        std::vector<std::size_t> v(testSize);
+        std::size_t index, count;
+
+        index = 5;
+        count = 1;
+        bit.add(index, count);
+        v[index] += count;
+
+        BOOST_CHECK(checkBitRange(v, bit));
     }
 
     BOOST_AUTO_TEST_CASE(Large)

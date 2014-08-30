@@ -6,7 +6,7 @@ OBJS   = $(patsubst %.cpp, %.o, $(SRCS))
 BINS   = $(patsubst %.cpp, %, $(SRCS))
 
 test : $(BINS)
-	./$<
+	./$< --log_level=test_suite --run_test=$(TESTS)
 
 % : %.cpp
 	$(CC) $(CFLAGS) $< $(LFLAGS) -o $@
