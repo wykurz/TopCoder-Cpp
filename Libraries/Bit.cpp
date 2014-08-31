@@ -40,22 +40,17 @@ namespace Libraries { namespace Bit {
 
     Bit::Count Bit::rangeCount(Index indexA_, Index indexB_) const
     {
-        Count leftSum = 0 < indexA_ ? leftCount(indexA_ - 1) : 0;
-        return leftCount(indexB_) - leftSum;
+        Count count = 0 < indexA_ ? leftCount(indexA_ - 1) : 0;
+        return leftCount(indexB_) - count;
     }
 
     Bit::Count Bit::leftCount(Index index_) const
     {
-        Count sum = _vector[index_];
-        if (0 < index_)
+        Count sum = 0;
+        while (0 < index_)
         {
-            Index z = index_ - (index_ & -index_);
-            --index_;
-            while (index_ != z)
-            {
-                sum -= _vector[index_];
-                index_ -= (index_ & -index_);
-            }
+            sum    += _vector[index_];
+            index_ -= (index_ & -index_);
         }
         return sum;
     }
@@ -80,11 +75,7 @@ namespace Libraries { namespace Bit {
         {
             for (std::size_t j = i; j < N; ++j)
             {
-                std::size_t vectorSum = 0;
-                for (std::size_t k = i; k <= j; ++k)
-                {
-                    vectorSum += vector_[k];
-                }
+                std::size_t vectorSum = countRange(vector_, i, j);
                 std::size_t bitSum = bit_.rangeCount(i, j);
                 if (vectorSum != bitSum)
                 {
@@ -119,11 +110,11 @@ namespace Libraries { namespace Bit {
         for (std::size_t i = 1; i < 100 * testSize; ++i)
         {
             std::size_t indexA = (i * mul) % testSize;
-            std::size_t indexB = std::min((i + 2 * i), testSize - 1);
+            std::size_t indexB = std::min((indexA + 2 * i), testSize - 1);
             std::size_t count = i;
             bit.add(indexA, count);
             v[indexA] += count;
-            BOOST_CHECK_EQUAL(bit.rangeCount(indexA, indexB), countRange(v, indexA, indexB));
+            BOOST_CHECK(checkBitRange(v, bit));
         }
     }
 
