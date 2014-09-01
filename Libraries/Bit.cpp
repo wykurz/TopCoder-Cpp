@@ -9,6 +9,8 @@
 
 namespace Libraries { namespace Bit {
 
+// BEGIN CUT HERE
+
     class Bit
     {
       public:
@@ -97,6 +99,8 @@ namespace {
         return sum;
     }
 
+// END CUT HERE
+
     BOOST_AUTO_TEST_SUITE(BitTest)
 
     std::size_t countRange(std::vector<std::size_t> vector_, std::size_t indexA_, std::size_t indexB_)
@@ -179,6 +183,8 @@ namespace {
         v[index] += count;
         BOOST_CHECK(checkBitRange(v, bit));
     }
+
+    // TODO: Test negative values
 
     BOOST_AUTO_TEST_CASE(Large)
     {
