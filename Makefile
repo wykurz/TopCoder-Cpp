@@ -1,13 +1,15 @@
 CC     = g++
 CFLAGS = -std=c++11 -Wall -g
+LFLAGS = -Wl,--no-as-needed -lprofiler -Wl,--as-needed
 SRCS   = $(wildcard *.cpp)
 BINS   = $(patsubst %.cpp, %, $(SRCS))
 
 test : $(BINS)
-	./$<
+	PUPROFILE=cpu.profile ./$<
+	google-pprof --text ./$< cpu.profile 
 
 % : %.cpp
-	$(CC) $(CFLAGS) $< -o $@
+	$(CC) $(CFLAGS) $< -o $@ $(LFLAGS)
 
 clobber :
 	rm -f $(BINS)
