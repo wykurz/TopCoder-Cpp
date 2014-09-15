@@ -24,7 +24,7 @@ namespace Libraries { namespace Bit {
         Count rangeCount(Index indexA_, Index indexB_) const;
 
       private:
-        void         doAdd(Index index_, Count value_);
+        void          doAdd(Index index_, Count value_);
         Count   singleCount(Index index_) const;
         Count fromLeftCount(Index index_) const;
         std::vector<Index> _vector;
