@@ -18,7 +18,7 @@ namespace Libraries { namespace Test {
         Predicate predicate;
     };
 
-    template <typename T> TestIssues& operator<<(TestIssues& testIssues_, const T& value_)
+    template<typename T> TestIssues& operator<<(TestIssues& testIssues_, const T& value_)
     {
         testIssues_.predicate = false;
         testIssues_.predicate.message() << value_;
