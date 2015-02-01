@@ -5,7 +5,7 @@ SRCS   = $(wildcard *.cpp)
 BINS   = $(patsubst %.cpp, %, $(SRCS))
 
 test : $(BINS)
-	PUPROFILE=cpu.profile ./$<
+	CPUPROFILE=cpu.profile ./$<
 	google-pprof --text ./$< cpu.profile | c++filt
 
 % : %.cpp
