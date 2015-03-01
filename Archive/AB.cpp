@@ -18,8 +18,9 @@
 
 using namespace std;
 
-$BEGINCUT$
+// BEGIN CUT HERE
 #define ARRSIZE(x) (sizeof(x)/sizeof(x[0]))
+
 template<typename T> void print( T a ) {
     cerr << a;
 }
@@ -78,35 +79,65 @@ static void eq( int n, string have, string need )
         cerr << "." << endl;
     }
 }
-// Debug:
-template<typename T>
-ostream& operator<<(ostream& os, const vector<T>& v) {
-    os << "[ ";
-    for (const T& x : v) {
-        os << x << " ";
-    }
-    os << "]";
-    return os;
-}
-$ENDCUT$
+// END CUT HERE
 
-typedef vector<int>  vi;
-typedef vector<vi>   vvi;
+typedef vector<int> vi;
+typedef vector<vi>  vvi;
+
 typedef vector<bool> vb;
 typedef vector<vb>   vvb;
 
-class $CLASSNAME$
+class AB
 {
   public:
-    $RC$ $METHODNAME$($METHODPARMS$)
+    string createString(int N, int K)
     {
+        // [#A][#(A < B)]
+        auto dp = vector<vector<std::string>>(N + 1, {K + 1, ""});
+        dp[0][0] = "B";
+        dp[1][0] = "A";
+        auto dp2(dp);
+        for (int i = 1; i < N; ++i) {
+            for (int j = 0; j <= i; ++j) {
+                for (int k = 0; k <= K; ++k) {
+                    if (i != dp[j][k].size()) continue;
+                    // cerr << "processing dp[" << j << "][" << k << "] : " << dp[j][k] << endl;
+                    dp2[j + 1][k] = dp[j][k] + "A";
+                    int nk = j + k;
+                    if (nk <= K) {
+                        dp2[j][nk] = dp[j][k] + "B";
+                        // cerr << "add b = dp[" << j << "][" << nk << "] : " << dp2[j][nk] << endl;
+                    }
+                }
+            }
+            swap(dp, dp2);
+        }
+        for (int i = 0; i <= N; ++i) {
+            if (N == dp[i][K].size()) return dp[i][K];
+        }
+        return "";
     }
 };
 
-$BEGINCUT$
+// BEGIN CUT HERE
 int main( int argc, char* argv[] )
 {
-$MAINBODY$
+    {
+        AB theObject;
+        eq(0, theObject.createString(3, 2),"ABB");
+    }
+    {
+        AB theObject;
+        eq(1, theObject.createString(2, 0),"BA");
+    }
+    {
+        AB theObject;
+        eq(2, theObject.createString(5, 8),"");
+    }
+    {
+        AB theObject;
+        eq(3, theObject.createString(10, 12),"BAABBABAAB");
+    }
     return 0;
 }
-$ENDCUT$
+// END CUT HERE

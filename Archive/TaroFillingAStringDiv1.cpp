@@ -18,8 +18,9 @@
 
 using namespace std;
 
-$BEGINCUT$
+// BEGIN CUT HERE
 #define ARRSIZE(x) (sizeof(x)/sizeof(x[0]))
+
 template<typename T> void print( T a ) {
     cerr << a;
 }
@@ -78,35 +79,61 @@ static void eq( int n, string have, string need )
         cerr << "." << endl;
     }
 }
-// Debug:
-template<typename T>
-ostream& operator<<(ostream& os, const vector<T>& v) {
-    os << "[ ";
-    for (const T& x : v) {
-        os << x << " ";
-    }
-    os << "]";
-    return os;
-}
-$ENDCUT$
+// END CUT HERE
 
-typedef vector<int>  vi;
-typedef vector<vi>   vvi;
-typedef vector<bool> vb;
-typedef vector<vb>   vvb;
-
-class $CLASSNAME$
+class TaroFillingAStringDiv1
 {
   public:
-    $RC$ $METHODNAME$($METHODPARMS$)
+    typedef long long int lli;
+    static constexpr lli mod = 1e9 + 7;
+    int getNumber(int N, vector <int> pos, string val)
     {
+        int n = val.size();
+        vector<pair<int, char>> v;
+        for (int i = 0; i < n; ++i) {
+            v.push_back(make_pair(pos[i], val[i]));
+        }
+        sort(v.begin(), v.end());
+        lli ret = 1;
+        pair<int, char> prev = make_pair(-1, 'A');
+        for (auto curr : v) {
+            if (0 < prev.first && ((prev.first - curr.first) & 1) != ((prev.second - curr.second) & 1)) {
+                ret *= curr.first - prev.first;
+                ret %= mod;
+            }
+            prev = curr;
+        }
+        return ret;
     }
 };
 
-$BEGINCUT$
+// BEGIN CUT HERE
 int main( int argc, char* argv[] )
 {
-$MAINBODY$
+    {
+        int positionARRAY[] = {1, 3};
+        vector <int> position( positionARRAY, positionARRAY+ARRSIZE(positionARRAY) );
+        TaroFillingAStringDiv1 theObject;
+        eq(0, theObject.getNumber(3, position, "AB"),2);
+    }
+    {
+        int positionARRAY[] = {2, 1, 3, 4};
+        vector <int> position( positionARRAY, positionARRAY+ARRSIZE(positionARRAY) );
+        TaroFillingAStringDiv1 theObject;
+        eq(1, theObject.getNumber(4, position, "ABBA"),1);
+    }
+    {
+        int positionARRAY[] = {23, 4, 8, 1, 24, 9, 16, 17, 6, 2, 25, 15, 14, 7, 13};
+        vector <int> position( positionARRAY, positionARRAY+ARRSIZE(positionARRAY) );
+        TaroFillingAStringDiv1 theObject;
+        eq(2, theObject.getNumber(25, position, "ABBBBABABBAAABA"),1);
+    }
+    {
+        int positionARRAY[] = {183, 115, 250, 1, 188, 193, 163, 221, 144, 191, 92, 192, 58, 215, 157, 187, 227, 177, 206, 15, 272, 232, 49, 11, 178, 59, 189, 246};
+        vector <int> position( positionARRAY, positionARRAY+ARRSIZE(positionARRAY) );
+        TaroFillingAStringDiv1 theObject;
+        eq(3, theObject.getNumber(305, position, "ABAABBABBAABABBBBAAAABBABBBA"),43068480);
+    }
     return 0;
 }
-$ENDCUT$
+// END CUT HERE
