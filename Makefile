@@ -14,6 +14,7 @@ test : $(BINS)
 clobber :
 	rm -f $(BINS)
 	rm -f *.bak
+	rm cpu.profile
 
 archive : clobber
 	@echo $(SRCS)
