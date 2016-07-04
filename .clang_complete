@@ -1,3 +1,5 @@
 -std=c++11
 -Wall
 -g
+-Wno-unused-function
+-Wno-unused-variable
