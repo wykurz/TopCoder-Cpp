@@ -1,5 +1,5 @@
 CC     = g++
-CFLAGS = -std=c++11 -Wall -g -Wno-unused-function -Wno-unused-variable
+CFLAGS = -std=c++11 -Wall -g -Wno-unused-function -Wno-unused-variable -Wno-sign-compare
 LFLAGS = -Wl,--no-as-needed -lprofiler -Wl,--as-needed
 SRCS   = $(wildcard *.cpp)
 BINS   = $(patsubst %.cpp, %, $(SRCS))
