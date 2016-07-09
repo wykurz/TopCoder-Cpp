@@ -127,9 +127,9 @@ using sstrm = stringstream;
 #define BCNT(x) __builtin_popcountll(x)
 #define LZC(x) ((x) == 0 ? sizeof(x) * 8 : __builtin_clzll(x))
 #define RZC(x) ((x) == 0 ? sizeof(x) * 8 : __builtin_ctzll(x))
-#define ALL(c) (c).begin(),(c).end()
+#define ALL(c) begin(c), end(c)
 #define HAS(c, x) ((c).find(x) != (c).end())
-#define CHAS(c,x) (find(ALL(c), x) != (c).end())
+#define CHAS(c, x) (find(ALL(c), x) != (c).end())
 
 template<typename S, typename T> inline void chmin(S& a, T b) { if (b < a) a = b; }
 template<typename S, typename T> inline void chmax(S& a, T b) { if (a < b) a = b; }
