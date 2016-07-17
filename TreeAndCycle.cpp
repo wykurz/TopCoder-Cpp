@@ -134,41 +134,50 @@ using sstrm = stringstream;
 template<typename S, typename T> inline void chmin(S& a, T b) { if (b < a) a = b; }
 template<typename S, typename T> inline void chmax(S& a, T b) { if (a < b) a = b; }
 
+int dp[100][3];
+
 class TreeAndCycle {
 public:
 
-    int minimize(vector <int> costv, vector <int> pre, vector <int> coste)
+    int minimize(vector <int> cv, vector <int> pre, vector <int> coste)
     {
-        int n = costv.size();
+        int n = cv.size();
         vector<vector<int> > gg(n);
+        vector<vector<int> > ce(n);
         REP(i, n - 1) gg[pre[i]].push_back(i + 1);
+        REP(i, n - 1) ce[pre[i]].push_back(coste[i]);
         // REP(i, n) {
         //     cerr << i << " : ";
         //     for (int c : gg[i]) cerr << c << ",";
         //     cerr << endl;
         // }
         function<pair<int, int>(int)> f = [&](int curr) {
-            auto cvc = costv[curr];
+            auto cvc = cv[curr];
             if (!gg[curr].size()) {
                 auto ans = make_pair(2 * cvc, cvc);
                 cerr << curr << ": " << ans.first << "," << ans.second << endl;
                 return ans;
             }
-            vector<pair<int, int> > chil;
-            for (auto next : gg[curr]) chil.push_back(f(next));
-            int m = chil.size();
+            ZERO(dp);
+            int m = gg[curr].size();
+            REP(i, m) {
+                auto pp = f(gg[curr][i]);
+                dp[i][0] = pp.first;
+                dp[i][1] = pp.second;
+                dp[i][2] = ce[curr][i];
+            }
             int r0 = 0;
-            REP(i, m) r0 += chil[i].first;
-            int r1 = r0 - chil[0].first + chil[0].second;
+            REP(i, m) r0 += dp[i][0] + dp[i][2];
+            int r1 = r0 - dp[0][0] + dp[0][1] - dp[0][2];
             FOR(i, 1, m) {
-                int r1t = r0 - chil[i].first + chil[i].second;
+                int r1t = r0 - dp[i][0] + dp[i][1] - dp[i][2];
                 chmin(r1, r1t);
             }
             int r2 = numeric_limits<int>::max() - 20000;
             if (1 < m) {
-                r2 = r0 - chil[0].first + chil[0].second - chil[1].first + chil[1].second;
+                r2 = r0 - dp[0][0] + dp[0][1] - dp[0][2] - dp[1][0] + dp[1][1] - dp[1][2];
                 REP(i, m - 1) FOR(j, i + 1, m - 1) {
-                    int r2t = r0 - chil[i].first + chil[i].second - chil[j].first + chil[j].second;
+                    int r2t = r0 - dp[i][0] + dp[i][1] - dp[i][2] - dp[j][0] + dp[j][1] - dp[j][2];
                     chmin(r2, r2t);
                 }
             }
