@@ -1,0 +1,34 @@
+<html><body bgcolor="#000000" text="#ffffff"><table><tr><td colspan="2"><h3>Problem Statement</h3></td></tr><tr><td>&#160;&#160;&#160;&#160;</td><td><p>A tree is a connected undirected graph without cycles.
+The distance between two vertices is the number of edges on the unique simple path that connects them.
+The diameter of a tree is the maximum distance between two of its vertices.</p>
+<br></br>
+<p>Bears hate ties and love uniqueness.
+They call a tree <i>nice</i> if there is exactly one unordered pair of vertices (x, y) such that the distance between x and y is equal to the diameter of the tree.
+(Note that x and y may be identical. In particular, this means that each tree with a single vertex is nice.)</p>
+<br></br>
+<p>Bear Limak has a tree with N vertices, numbered 0 through N-1.
+The tree is not necessarily nice.
+Limak wants to choose some non-empty subtree (i.e., a connected subgraph) of his tree and give it as a gift to someone.
+Of course, the chosen subtree must be nice.</p>
+<br></br>
+<p>You are given the description of Limak's tree: the vector &lt;int&gt;s <b>a</b> and <b>b</b>, each with N-1 elements.
+For each valid i, there is an edge between vertices <b>a</b>[i] and <b>b</b>[i].
+Find and return the number of nice subtrees in Limak's tree, modulo 1,000,000,007.</p></td></tr><tr><td colspan="2"><h3>Definition</h3></td></tr><tr><td>&#160;&#160;&#160;&#160;</td><td><table><tr><td>Class:</td><td>BearUniqueDiameter</td></tr><tr><td>Method:</td><td>countSubtrees</td></tr><tr><td>Parameters:</td><td>vector &lt;int&gt;, vector &lt;int&gt;</td></tr><tr><td>Returns:</td><td>int</td></tr><tr><td>Method signature:</td><td>int countSubtrees(vector &lt;int&gt; a, vector &lt;int&gt; b)</td></tr><tr><td colspan="2">(be sure your method is public)</td></tr></table></td></tr><tr><td colspan="2"><h3>Limits</h3></td></tr><tr><td>&#160;&#160;&#160;&#160;</td><td><table><tr><td>Time limit (s):</td><td>2.000</td></tr><tr><td>Memory limit (MB):</td><td>256</td></tr><tr><td>Stack limit (MB):</td><td>256</td></tr></table></td></tr><tr><td colspan="2"><h3>Notes</h3></td></tr><tr><td align="center" valign="top">-</td><td>N will be between 2 and 300, inclusive.</td></tr><tr><td align="center" valign="top">-</td><td><b>a</b> and <b>b</b> will each have exactly N elements.</td></tr><tr><td align="center" valign="top">-</td><td>Each element in <b>a</b> and in <b>b</b> will be between 0 and N-1, inclusive.</td></tr><tr><td align="center" valign="top">-</td><td>The given N-1 edges will form a tree.</td></tr><tr><td colspan="2"><h3>Examples</h3></td></tr><tr><td align="center" nowrap="true">0)</td><td></td></tr><tr><td>&#160;&#160;&#160;&#160;</td><td><table><tr><td><table><tr><td><pre>{0,0,0}</pre></td></tr><tr><td><pre>{1,2,3}</pre></td></tr></table></td></tr><tr><td><pre>Returns: 10</pre></td></tr><tr><td><table><tr><td colspan="2">The given tree has 4 vertices and 3 edges: 0-1, 0-2, 0-3.
+There are the following types of subtrees:
+
+<ul>
+<li>The whole tree is also its own subtree.
+Its diameter is 2.
+Unfortunately, there is more than one pair of vertices with the distance 2 (the three pairs are: 1-2, 1-3, 2-3).
+Hence, this subtree is not nice and we don't count it towards the answer.</li>
+<li>There are 3 subtrees with 3 vertices each.
+Each of them is nice.</li>
+<li>There are 3 subtrees with 2 vertices each.
+Each of them is also nice.</li>
+<li>Finally, there are 4 subtrees with 1 vertex each.
+As we already explained above, each of these is nice as well.</li>
+</ul>
+
+The answer is 3 + 3 + 4 = 10.</td></tr></table></td></tr></table></td></tr><tr><td align="center" nowrap="true">1)</td><td></td></tr><tr><td>&#160;&#160;&#160;&#160;</td><td><table><tr><td><table><tr><td><pre>{3,2,1,4,0}</pre></td></tr><tr><td><pre>{1,3,4,0,5}</pre></td></tr></table></td></tr><tr><td><pre>Returns: 21</pre></td></tr><tr><td><table><tr><td colspan="2"></td></tr></table></td></tr></table></td></tr><tr><td align="center" nowrap="true">2)</td><td></td></tr><tr><td>&#160;&#160;&#160;&#160;</td><td><table><tr><td><table><tr><td><pre>{0,1,2,3,2}</pre></td></tr><tr><td><pre>{1,2,3,4,5}</pre></td></tr></table></td></tr><tr><td><pre>Returns: 22</pre></td></tr><tr><td><table><tr><td colspan="2"></td></tr></table></td></tr></table></td></tr><tr><td align="center" nowrap="true">3)</td><td></td></tr><tr><td>&#160;&#160;&#160;&#160;</td><td><table><tr><td><table><tr><td><pre>{1}</pre></td></tr><tr><td><pre>{0}</pre></td></tr></table></td></tr><tr><td><pre>Returns: 3</pre></td></tr><tr><td><table><tr><td colspan="2"></td></tr></table></td></tr></table></td></tr><tr><td align="center" nowrap="true">4)</td><td></td></tr><tr><td>&#160;&#160;&#160;&#160;</td><td><table><tr><td><table><tr><td><pre>{36,23,33,33,33,24,33,33,33,33,37,33,33,33,33,28,33,33,22,33,
+29,16,33,33,33,33,33,31,35,33,33,8,13,26,12,33,33,0,33,33}</pre></td></tr><tr><td><pre>{33,33,0,9,39,33,32,40,15,19,33,30,38,7,25,33,27,11,33,3,33,33,
+21,18,5,6,4,33,11,14,10,33,33,33,33,20,2,1,34,17}</pre></td></tr></table></td></tr><tr><td><pre>Returns: 719477120</pre></td></tr><tr><td><table><tr><td colspan="2"></td></tr></table></td></tr></table></td></tr><tr><td align="center" nowrap="true">5)</td><td></td></tr><tr><td>&#160;&#160;&#160;&#160;</td><td><table><tr><td><table><tr><td><pre>{0,0,0,1,2,3,4,5,6}</pre></td></tr><tr><td><pre>{1,2,3,4,5,6,7,8,9}</pre></td></tr></table></td></tr><tr><td><pre>Returns: 70</pre></td></tr><tr><td><table><tr><td colspan="2"></td></tr></table></td></tr></table></td></tr></table><p>This problem statement is the exclusive and proprietary property of TopCoder, Inc.  Any unauthorized use or reproduction of this information without the prior written consent of TopCoder, Inc. is strictly prohibited.  (c)2003, TopCoder, Inc.  All rights reserved.  </p></body></html>
