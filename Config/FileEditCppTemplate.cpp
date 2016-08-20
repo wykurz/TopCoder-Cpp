@@ -21,20 +21,22 @@
 
 using namespace std;
 $BEGINCUT$
-vector<string> split( const string& s, const string& delim =" " ) {
+vector<string> split(const string& s, const string& delim = " ")
+{
     vector<string> res;
     string t;
-    for ( size_t i = 0 ; i != s.size() ; i++ ) {
-        if ( delim.find( s[i] ) != string::npos ) {
-            if ( !t.empty() ) {
+    for (size_t i = 0 ; i != s.size() ; ++i) {
+        if (delim.find( s[i] ) != string::npos) {
+            if (!t.empty()) {
                 res.push_back( t );
                 t = "";
             }
-        } else {
+        }
+        else {
             t += s[i];
         }
     }
-    if ( !t.empty() ) {
+    if (!t.empty()) {
         res.push_back(t);
     }
     return res;
