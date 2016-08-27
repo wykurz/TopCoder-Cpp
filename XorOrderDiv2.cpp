@@ -127,8 +127,8 @@ using sstrm = stringstream;
 #define SQR(x) ((x) * (x))
 #define PW(x) (1ll << (x))
 #define BCNT(x) __builtin_popcountll(x)
-#define LZC(x) ((x) == 0 ? sizeof(x) * 8 : __builtin_clzll(x))
-#define RZC(x) ((x) == 0 ? sizeof(x) * 8 : __builtin_ctzll(x))
+#define LZC(x) ((x) == 0 ? sizeof(ll) * 8 : __builtin_clzll(x))
+#define RZC(x) ((x) == 0 ? sizeof(ll) * 8 : __builtin_ctzll(x))
 #define ALL(c) begin(c), end(c)
 #define HAS(c, x) ((c).find(x) != (c).end())
 #define CHAS(c, x) (find(ALL(c), x) != (c).end())
@@ -136,62 +136,50 @@ using sstrm = stringstream;
 template<typename S, typename T> inline void chmin(S& a, T b) { if (b < a) a = b; }
 template<typename S, typename T> inline void chmax(S& a, T b) { if (a < b) a = b; }
 
-int C[30];
-int D[30];
-int E[1000];
-int F[1000];
+int C[31];
+int E[1001];
+int F[1001];
 
 class XorOrderDiv2 {
 public:
     vector<long long> getExpectation(int m, vector <int> a)
     {
         int n = a.size();
+        int m2 = 1;
+        REP(i, n) chmax(m2, 64 - LZC(a[i]));
+        assert(m2 <= m);
         vector<ll> ans(n);
         REP(i, n) {
             ZERO(C);
-            ZERO(D);
             ZERO(E);
-            REP(j, n) if (i != j) ++C[LZC(a[i] ^ a[j]) - 64 + m];
-
-            // cerr << "C:" << endl;
-            // REP(j, m) cerr << C[j] << " ";
-            // cerr << endl;
-
-            if (0 == C[m - 1]) D[m - 1] = 1;
-            RFOR(j, m - 2, 0) D[j] = D[j + 1] + (0 == C[j] ? 1 : 0);
-
-            // cerr << "D:" << endl;
-            // REP(j, m) cerr << D[j] << " ";
-            // cerr << endl;
-
-            F[0] = E[0] = PW(D[0]);
-            REP(j, m) if (0 < C[j]) {
+            REP(j, n) if (i != j) ++C[LZC(a[i] ^ a[j]) - 64 + m2];
+            E[0] = 1;
+            REP(j, m2) {
+                if (0 == C[j]) {
+                    REP(k, n) E[k] *= 2;
+                    continue;
+                }
                 ZERO(F);
-                REP(k, n) if (0 < E[k]) F[k + C[j]] = PW(D[j]);
+                REP(k, n - C[j]) F[k + C[j]] = E[k];
                 REP(k, n) E[k] += F[k];
             }
-
-            // cerr << "E:" << endl;
-            // REP(j, n) cerr << E[j] << " ";
-            // cerr << endl;
-
-            // cerr << endl;
-
             REP(j, n) ans[i] += (ll) j * j * E[j];
         }
+        for (auto& x : ans) x *= PW(m - m2);
         return ans;
     }
 };
 // BEGIN CUT HERE
 int main( int argc, char* argv[] )
 {
+
     {
         int aARRAY[] = {42};
         vector <int> a( aARRAY, aARRAY+ARRSIZE(aARRAY) );
         long retrunValueARRAY[] = {0L};
         vector<long long> retrunValue( retrunValueARRAY, retrunValueARRAY+ARRSIZE(retrunValueARRAY) );
         XorOrderDiv2 theObject;
-        eq(0, theObject.getExpectation(3, a),retrunValue);
+        eq(4, theObject.getExpectation(6, a),retrunValue);
     }
 
     {
@@ -219,6 +207,7 @@ int main( int argc, char* argv[] )
         XorOrderDiv2 theObject;
         eq(2, theObject.getExpectation(5, a),retrunValue);
     }
+
     {
         int aARRAY[] = {1,2,3,4,5,6,7,8,9,10};
         vector <int> a( aARRAY, aARRAY+ARRSIZE(aARRAY) );
