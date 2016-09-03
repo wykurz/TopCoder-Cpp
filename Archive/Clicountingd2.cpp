@@ -158,7 +158,7 @@ public:
             if (!ok) continue;
             chmax(dp[mask], BCNT(cli));
         }
-        REP(mask, PW(m)) if (0 == dp[mask]) REP(i, m) chmax(dp[mask], dp[mask & (~PW(i))]);
+        REP(mask, PW(m)) REP(i, m) chmax(dp[mask], dp[mask & (~PW(i))]);
         return accumulate(dp, dp + PW(20), 0);
     }
 };
@@ -166,6 +166,13 @@ public:
 // BEGIN CUT HERE
 int main( int argc, char* argv[] )
 {
+    {
+        string gARRAY[] = {"010101?0", "10?1?11?", "0?0111??", "1110111?", "0?11011?", "1111101?", "?1?11101", "0?????10"};
+        vector <string> g( gARRAY, gARRAY+ARRSIZE(gARRAY) );
+        Clicountingd2 theObject;
+        eq(0, theObject.count(g),2598);
+    }
+
     {
         string gARRAY[] = {"01","10"};
         vector <string> g( gARRAY, gARRAY+ARRSIZE(gARRAY) );
