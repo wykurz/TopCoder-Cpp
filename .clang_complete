@@ -4,3 +4,7 @@
 -Wno-unused-function
 -Wno-unused-variable
 -Wno-sign-compare
+-I/nix/store/2m6v6lnmnf9521ixd5v0x4qrmjkn30ws-gcc-5.4.0/include/c++/5.4.0
+-I/nix/store/2m6v6lnmnf9521ixd5v0x4qrmjkn30ws-gcc-5.4.0/include/c++/5.4.0/x86_64-unknown-linux-gnu
+-I/nix/store/38xz06jkjsj24fyw18jzp8n07zd583xd-clang-3.9.1/bin/../lib/clang/3.9.1/include
+-I/nix/store/97mn9nbanzl8dm4gqza2d0jnzgi4zxj4-glibc-2.25-dev/include
