@@ -6,7 +6,7 @@ BINS   = $(patsubst %.cpp, %, $(SRCS))
 
 test : $(BINS)
 	CPUPROFILE=cpu.profile ./$<
-	google-pprof --text ./$< cpu.profile | c++filt
+	pprof --text ./$< cpu.profile | c++filt
 
 % : %.cpp
 	$(CC) $(CFLAGS) $< -o $@ $(LFLAGS)
